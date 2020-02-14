@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TabNavigator from 'react-native-tab-navigator'
+import * as Device from 'expo-device';
 
 import {
   View,
@@ -20,6 +21,8 @@ import mapActive from '../../assets/images/location-active.png'
 import more from '../../assets/images/more.png'
 import moreActive from '../../assets/images/more-active.png'
 
+import Home from '../home/Home'
+
 interface Props {
 
 }
@@ -38,13 +41,13 @@ class Index extends Component<Props, State> {
   }
 
   componentDidMount() {
-
+    // console.log(Device.deviceName)
   }
 
   render() {
     return (
       <TabNavigator
-        tabBarStyle={{ paddingBottom: 34, height: 80 }}
+        tabBarStyle={Device.deviceName === 'iPhone Xʀ' ? styles.tabBarStyle : null}
       >
         <TabNavigator.Item
           selected={this.state.selectedTab === 'home'}
@@ -55,7 +58,7 @@ class Index extends Component<Props, State> {
           renderSelectedIcon={() => <Img source={cookbookActive} />}
           onPress={() => this.setState({ selectedTab: 'home' })}
         >
-          {<View><Text>美食大全</Text></View>}
+          <Home></Home>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'category'}
