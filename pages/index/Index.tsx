@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, ContextType } from 'react'
 import TabNavigator from 'react-native-tab-navigator'
-import * as Device from 'expo-device';
+import * as Device from 'expo-device'
+
+import { Provider } from '../../context/navigation'
 
 import {
   View,
@@ -22,9 +24,11 @@ import more from '../../assets/images/more.png'
 import moreActive from '../../assets/images/more-active.png'
 
 import Home from '../home/Home'
+import List from '../list/List'
+import Detail from '../detail/Detail'
 
 interface Props {
-
+  navigation?: any
 }
 
 interface State {
@@ -40,60 +44,81 @@ class Index extends Component<Props, State> {
     selectedTab: 'home'
   }
 
+
   componentDidMount() {
-    // console.log(Device.deviceName)
+    
   }
 
   render() {
     return (
-      <TabNavigator
-        tabBarStyle={Device.deviceName === 'iPhone Xʀ' ? styles.tabBarStyle : null}
-      >
-        <TabNavigator.Item
-          selected={this.state.selectedTab === 'home'}
-          title="美食大全"
-          titleStyle={styles.titleStyle}
-          selectedTitleStyle={styles.selectedTitleStyle}
-          renderIcon={() => <Img source={cookbook} />}
-          renderSelectedIcon={() => <Img source={cookbookActive} />}
-          onPress={() => this.setState({ selectedTab: 'home' })}
+      <>
+        <TabNavigator
+          tabBarStyle={Device.deviceName === 'iPhone Xʀ' ? styles.tabBarStyle : null}
         >
-          <Home></Home>
-        </TabNavigator.Item>
-        <TabNavigator.Item
-          selected={this.state.selectedTab === 'category'}
-          title="分类"
-          titleStyle={styles.titleStyle}
-          selectedTitleStyle={styles.selectedTitleStyle}
-          renderIcon={() => <Img source={category} />}
-          renderSelectedIcon={() => <Img source={categoryActive} />}
-          onPress={() => this.setState({ selectedTab: 'category' })}
-        >
-          {<View><Text>分类</Text></View>}
-        </TabNavigator.Item>
-        <TabNavigator.Item
-          selected={this.state.selectedTab === 'map'}
-          title="地图"
-          titleStyle={styles.titleStyle}
-          selectedTitleStyle={styles.selectedTitleStyle}
-          renderIcon={() => <Img source={map} />}
-          renderSelectedIcon={() => <Img source={mapActive} />}
-          onPress={() => this.setState({ selectedTab: 'map' })}
-        >
-          {<View><Text>地图</Text></View>}
-        </TabNavigator.Item>
-        <TabNavigator.Item
-          selected={this.state.selectedTab === 'more'}
-          title="更多"
-          titleStyle={styles.titleStyle}
-          selectedTitleStyle={styles.selectedTitleStyle}
-          renderIcon={() => <Img source={more} />}
-          renderSelectedIcon={() => <Img source={moreActive} />}
-          onPress={() => this.setState({ selectedTab: 'more' })}
-        >
-          {<View><Text>更多</Text></View>}
-        </TabNavigator.Item>
-      </TabNavigator>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'home'}
+            title="美食大全"
+            titleStyle={styles.titleStyle}
+            selectedTitleStyle={styles.selectedTitleStyle}
+            renderIcon={() => <Img source={cookbook} />}
+            renderSelectedIcon={() => <Img source={cookbookActive} />}
+            onPress={() => {
+              this.setState({ selectedTab: 'home' })
+              this.props.navigation.setOptions({ title: '美食大全' })
+            }}
+          >
+            <Provider value={{...this.props}}>
+              <Home></Home>
+            </Provider>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'category'}
+            title="热门"
+            titleStyle={styles.titleStyle}
+            selectedTitleStyle={styles.selectedTitleStyle}
+            renderIcon={() => <Img source={category} />}
+            renderSelectedIcon={() => <Img source={categoryActive} />}
+            onPress={
+              () => {
+                this.setState({ selectedTab: 'category' })
+                this.props.navigation.setOptions({ title: '热门' })
+              }
+            }
+          >
+            <Provider value={{...this.props}}>
+              <List></List>
+            </Provider>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'map'}
+            title="地图"
+            titleStyle={styles.titleStyle}
+            selectedTitleStyle={styles.selectedTitleStyle}
+            renderIcon={() => <Img source={map} />}
+            renderSelectedIcon={() => <Img source={mapActive} />}
+            onPress={() => {
+              this.setState({ selectedTab: 'map' })
+              this.props.navigation.setOptions({ title: '地图' })
+            }}
+          >
+            <Detail></Detail>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'more'}
+            title="更多"
+            titleStyle={styles.titleStyle}
+            selectedTitleStyle={styles.selectedTitleStyle}
+            renderIcon={() => <Img source={more} />}
+            renderSelectedIcon={() => <Img source={moreActive} />}
+            onPress={() => {
+              this.setState({ selectedTab: 'more' })
+              this.props.navigation.setOptions({ title: '更多' })
+            }}
+          >
+            {<View><Text>更多</Text></View>}
+          </TabNavigator.Item>
+        </TabNavigator>
+      </>
     )
   }
 }
