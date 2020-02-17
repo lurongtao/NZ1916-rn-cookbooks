@@ -55,11 +55,14 @@ export default class List extends Component<Props, State> {
 
   _onPress = (name: string) => {
     return () => {
-      this.context.navigation.push('Detail', {name})
+      if (this.context) {
+        this.context.navigation.push('Detail', {name})
+      } else {
+        this.props.navigation.push('Detail', {name})
+      }
     }
   }
   
-
   // 渲染 Flatlist 组件数据
   _renderItem(item) {
     let {img, name, burdens, all_click, favorites} = item.item.data   

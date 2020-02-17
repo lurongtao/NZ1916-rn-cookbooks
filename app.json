@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Blank Template (TypeScript)",
+    "name": "rn-cookbooks",
     "slug": "rn-cookbooks",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -24,7 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.qianfeng.felixlu",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.qianfeng.felixlu",
+      "versionCode": 1
     }
   }
 }

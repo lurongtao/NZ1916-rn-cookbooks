@@ -9,6 +9,10 @@ class Store {
   @observable
   list = []
 
+  // 定义是否显示地图按钮
+  @observable
+  isShow = true
+
   // swiper 数据过滤
   @computed
   get swiper() {
@@ -36,7 +40,13 @@ class Store {
   @action.bound
   setList(data) {
     this.list = data
-  }  
+  }
+
+  // 修改是否显示地图按钮
+  @action.bound
+  setVisible(status) {
+    this.isShow = status
+  }
 }
 
 export default new Store()

@@ -10,7 +10,7 @@ export default StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderStyle: 'solid',
-    borderBottomColor: '#eee'
+    borderBottomColor: '#ddd'
   },
 
   imgWrap: {

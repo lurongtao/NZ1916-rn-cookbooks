@@ -23,7 +23,7 @@ export default function App() {
             headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
-              fontSize: 20
+              fontSize: 16
             }
           }}
         >
