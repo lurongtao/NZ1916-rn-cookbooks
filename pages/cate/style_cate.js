@@ -2,8 +2,7 @@ import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
   flatListWrap: {
-    paddingTop: 20,
-    paddingBottom: 54,
+    paddingBottom: 44,
     flex: 1
   },
 
@@ -12,7 +11,7 @@ export default StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderStyle: 'solid',
-    borderBottomColor: '#eee'
+    borderBottomColor: '#ddd'
   },
 
   imgWrap: {

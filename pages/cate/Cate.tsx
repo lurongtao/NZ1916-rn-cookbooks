@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native'
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { observer, inject } from 'mobx-react'
+import { navigationContext } from '../../context/navigation'
 import styles from './style_cate.js'
 
 interface Props {
-  store?: any
+  store?: any,
+  route?: any,
+  navigation?: any
 }
 interface State {
   dataList: Array<object>,
@@ -21,6 +24,8 @@ export default class Cate extends Component<Props, State> {
     curPage: 1
   }
 
+  static contextType = navigationContext
+
   _loadData() {
     let data = this.props.store.list.slice(0, this.state.curPage * 15)
     let flatListData = data.map((value, index) => ({
@@ -32,19 +37,34 @@ export default class Cate extends Component<Props, State> {
     })
   }
 
+  _onPress = (name: string) => {
+    return (e) => {
+      if (this.context) {
+        this.context.navigation.push('Detail', {name})
+      } else {
+        this.props.navigation.push('Detail', {name})
+      }
+    }
+  }
+  
+
   _renderItem = (el) => {
     let { img, name, burdens, all_click, favorites } = el.item.data
     return (
-      <View style={styles.listWrap}>
-        <View style={styles.imgWrap}>
-          <Image style={styles.image} source={{uri: img}}></Image>
+      <TouchableOpacity
+        onPress={this._onPress(name)}
+      >
+        <View style={styles.listWrap}>
+          <View style={styles.imgWrap}>
+            <Image style={styles.image} source={{uri: img}}></Image>
+          </View>
+          <View style={styles.descWrap}>
+            <Text style={styles.title}>{name}</Text>
+            <Text style={styles.subtitle} numberOfLines={1}>{burdens}</Text>
+            <Text style={styles.desc}>{all_click} {favorites}</Text>
+          </View>
         </View>
-        <View style={styles.descWrap}>
-          <Text style={styles.title}>{name}</Text>
-          <Text style={styles.subtitle} numberOfLines={1}>{burdens}</Text>
-          <Text style={styles.desc}>{all_click} {favorites}</Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -74,6 +94,11 @@ export default class Cate extends Component<Props, State> {
 
   componentDidMount() {
     this._loadData()
+    if (this.props.navigation) {
+      this.props.navigation.setOptions({ title: this.props.route.params.title })
+    } else {
+      this.context.navigation.setOptions({title: '热门'})
+    }
   }
 
   render() {

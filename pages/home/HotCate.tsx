@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Grid } from '@ant-design/react-native'
 import { get } from '../../utils/http'
+import { Consumer } from '../../context/navigation'
 
 import styles from './style_home'
 
@@ -34,6 +35,12 @@ export default class HotCate extends Component<Props, State> {
     )
   }
 
+  _onPress = (navigation) => {
+    return (e) => {
+      navigation.push('Cate', {title: e.title})
+    }
+  }
+
   async componentDidMount() {
     let hotCate = await get('http://localhost:9000/api/hotcate')
     this.setState({
@@ -44,11 +51,18 @@ export default class HotCate extends Component<Props, State> {
   render() {
     return (
       <View style={styles.hotCateGridWrap}>
-        <Grid
-          data={this.state.hotCate}
-          renderItem={this._renderItem}
-          hasLine={false}
-        ></Grid>
+        <Consumer>
+          {
+            ({navigation}) => (
+              <Grid
+                data={this.state.hotCate}
+                renderItem={this._renderItem}
+                hasLine={false}
+                onPress={this._onPress(navigation)}
+              ></Grid>
+            )
+          }
+        </Consumer>
       </View>
     )
   }

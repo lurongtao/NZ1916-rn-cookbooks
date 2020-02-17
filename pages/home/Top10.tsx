@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Image } from 'react-native'
+import { navigationContext } from '../../context/navigation'
 import { observer, inject } from 'mobx-react'
 import { Grid } from '@ant-design/react-native'
 import styles from './style_home.js'
@@ -15,6 +16,13 @@ interface State {
 @observer
 export default class Top10 extends Component<Props, State> {
   state = {}
+
+  static contextType = navigationContext
+
+  _onPress = (e) => {
+    this.context.navigation.push('Detail', {name: e.name})
+  }
+  
 
   _renderTop10(el, index) {
     return (
@@ -42,6 +50,7 @@ export default class Top10 extends Component<Props, State> {
             columnNum={2}
             hasLine={false}
             renderItem={this._renderTop10}
+            onPress={this._onPress}
           ></Grid>
         </View>
       </View>

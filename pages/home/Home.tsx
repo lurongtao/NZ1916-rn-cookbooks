@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Swiper from './Swiper'
 import HotCate from './HotCate'
 import Top10 from './Top10'
-import { ScrollView } from 'react-native'
+import { ScrollView, StatusBar } from 'react-native'
 
 interface Props {
 
@@ -16,6 +16,7 @@ class Home extends Component<Props, State> {
   render() {
     return (
       <ScrollView>
+        <StatusBar barStyle="light-content" />
         <Swiper></Swiper>
         <HotCate></HotCate>
         <Top10></Top10>
