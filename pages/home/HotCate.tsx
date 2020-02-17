@@ -28,14 +28,14 @@ export default class HotCate extends Component<Props, State> {
       <View
         style={styles.container}
       >
-        <Image source={{uri: 'http://placehold.it/100x100'}} style={styles.gridImg}></Image>
+        <Image source={{uri: el.img}} style={styles.gridImg}></Image>
         <Text style={styles.gridText}>{el.title}</Text>
       </View>
     )
   }
 
   async componentDidMount() {
-    let hotCate = await get('http://gp145.qianfeng.com:3333/api/hotcate')
+    let hotCate = await get('http://localhost:9000/api/hotcate')
     this.setState({
       hotCate
     })
@@ -43,7 +43,7 @@ export default class HotCate extends Component<Props, State> {
 
   render() {
     return (
-      <View>
+      <View style={styles.hotCateGridWrap}>
         <Grid
           data={this.state.hotCate}
           renderItem={this._renderItem}

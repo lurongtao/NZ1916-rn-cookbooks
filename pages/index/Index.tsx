@@ -22,6 +22,7 @@ import more from '../../assets/images/more.png'
 import moreActive from '../../assets/images/more-active.png'
 
 import Home from '../home/Home'
+import Cate from '../cate/Cate'
 
 interface Props {
 
@@ -62,14 +63,14 @@ class Index extends Component<Props, State> {
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'category'}
-          title="分类"
+          title="热门"
           titleStyle={styles.titleStyle}
           selectedTitleStyle={styles.selectedTitleStyle}
           renderIcon={() => <Img source={category} />}
           renderSelectedIcon={() => <Img source={categoryActive} />}
           onPress={() => this.setState({ selectedTab: 'category' })}
         >
-          {<View><Text>分类</Text></View>}
+          <Cate></Cate>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'map'}
