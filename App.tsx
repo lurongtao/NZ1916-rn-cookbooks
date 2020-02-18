@@ -9,7 +9,7 @@ import Index from './pages/index/Index'
 import Cate from './pages/cate/Cate'
 import Detail from './pages/detail/Detail'
 
- const Stack = createStackNavigator()
+const Stack = createStackNavigator()
 
 export default function App() {
   return (

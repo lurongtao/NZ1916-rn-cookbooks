@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import TabNavigator from 'react-native-tab-navigator'
 import * as Device from 'expo-device'
 import { Provider } from '../../context/navigation'
+import { observer, inject } from 'mobx-react'
+import { AsyncStorage } from 'react-native'
 
 import {
   View,
@@ -24,16 +26,20 @@ import moreActive from '../../assets/images/more-active.png'
 
 import Home from '../home/Home'
 import Cate from '../cate/Cate'
-import Detail from '../detail/Detail'
+import Map from '../map/Map'
+import More from '../more/More'
 
 interface Props {
-  navigation?: any
+  navigation?: any,
+  store: any
 }
 
 interface State {
   selectedTab: string
 }
 
+@inject('store')
+@observer
 class Index extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
@@ -43,8 +49,9 @@ class Index extends Component<Props, State> {
     selectedTab: 'home'
   }
 
-  componentDidMount() {
-    // console.log(Device.deviceName)s
+  async componentDidMount() {
+    let isShow = JSON.parse(await AsyncStorage.getItem('isShow'))
+    this.props.store.setVisible(isShow)
   }
 
   render() {
@@ -81,20 +88,26 @@ class Index extends Component<Props, State> {
           >
             <Cate></Cate>
           </TabNavigator.Item>
-          <TabNavigator.Item
-            selected={this.state.selectedTab === 'map'}
-            title="地图"
-            titleStyle={styles.titleStyle}
-            selectedTitleStyle={styles.selectedTitleStyle}
-            renderIcon={() => <Img source={map} />}
-            renderSelectedIcon={() => <Img source={mapActive} />}
-            onPress={() => {
-              this.setState({ selectedTab: 'map' })
-              this.props.navigation.setOptions({title: '美食地图'})
-            }}
-          >
-            {<View><Text>地图</Text></View>}
-          </TabNavigator.Item>
+          {
+            this.props.store.isShow
+              ? (
+                <TabNavigator.Item
+                  selected={this.state.selectedTab === 'map'}
+                  title="地图"
+                  titleStyle={styles.titleStyle}
+                  selectedTitleStyle={styles.selectedTitleStyle}
+                  renderIcon={() => <Img source={map} />}
+                  renderSelectedIcon={() => <Img source={mapActive} />}
+                  onPress={() => {
+                    this.setState({ selectedTab: 'map' })
+                    this.props.navigation.setOptions({title: '美食地图'})
+                  }}
+                >
+                  <Map></Map>
+                </TabNavigator.Item>
+              )
+              : null
+          }
           <TabNavigator.Item
             selected={this.state.selectedTab === 'more'}
             title="更多"
@@ -107,7 +120,7 @@ class Index extends Component<Props, State> {
               this.props.navigation.setOptions({title: '更多'})
             }}
           >
-            {<View><Text>更多</Text></View>}
+            <More></More>
           </TabNavigator.Item>
         </TabNavigator>
       </Provider>
